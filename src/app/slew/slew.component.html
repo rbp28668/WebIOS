@@ -1,0 +1,59 @@
+
+<cmd-button caption="Toggle Slew" cmd="cmd/SLEW_TOGGLE"></cmd-button>
+<cmd-button caption="Slew Off" cmd="cmd/SLEW_OFF"></cmd-button>
+<cmd-button caption="Slew On" cmd="cmd/SLEW_ON"></cmd-button>
+<cmd-button caption="Stop" cmd="cmd/SLEW_FREEZE"></cmd-button>
+<cmd-button caption="Reset" cmd="cmd/SLEW_RESET"></cmd-button>
+
+<div></div>
+
+<fieldset class="solid"  style="display:inline">
+  <legend>Horizontal</legend>
+  <div style="display:flex; flex-direction: column;">
+  <cmd-button caption="Forward" cmd="cmd/SLEW_AHEAD_PLUS"></cmd-button>
+  <div>
+    <cmd-button caption="Left" cmd="cmd/SLEW_LEFT"></cmd-button>
+    <cmd-button caption="Right" cmd="cmd/SLEW_RIGHT"></cmd-button>
+  </div>
+  <cmd-button caption="Back" cmd="cmd/SLEW_AHEAD_MINUS"></cmd-button>
+  </div>
+</fieldset>
+
+<fieldset class="solid"  style="display:inline">
+  <legend>Roll</legend>
+  <cmd-button caption="Left" cmd="cmd/SLEW_BANK_MINUS"></cmd-button>
+  <cmd-button caption="Right" cmd="cmd/SLEW_BANK_PLUS"></cmd-button>
+</fieldset>
+
+<fieldset class="solid"  style="display:inline">
+  <legend>Yaw</legend>
+  <cmd-button caption="Left" cmd="cmd/SLEW_HEADING_MINUS"></cmd-button>
+  <cmd-button caption="Right" cmd="cmd/SLEW_HEADING_PLUS"></cmd-button>
+</fieldset>
+
+
+<fieldset class="solid"  style="display:inline">
+  <legend>Altitude</legend>
+  <div style="display:flex; flex-direction: column">
+    <cmd-button caption="Up Fast" cmd="cmd/SLEW_ALTIT_UP_FAST"></cmd-button>
+    <cmd-button caption="Up Slow" cmd="cmd/SLEW_ALTIT_UP_SLOW"></cmd-button>
+    <cmd-button caption="Stop" cmd="cmd/SLEW_ALTIT_FREEZE"></cmd-button>
+    <cmd-button caption="Down Slow" cmd="cmd/SLEW_ALTIT_DN_SLOW"></cmd-button>
+    <cmd-button caption="Down Fast" cmd="cmd/SLEW_ALTIT_DN_FAST"></cmd-button>
+    <cmd-button caption="Faster up" cmd="cmd/SLEW_ALTIT_PLUS"></cmd-button>
+    <cmd-button caption="Slower up" cmd="cmd/SLEW_ALTIT_MINUS"></cmd-button>
+  </div>
+</fieldset>
+
+<fieldset class="solid"  style="display:inline">
+  <legend>Pitch</legend>
+  <div style="display:flex; flex-direction: column">
+    <cmd-button caption="Up Fast" cmd="cmd/SLEW_PITCH_UP_FAST"></cmd-button>
+    <cmd-button caption="Up Slow" cmd="cmd/SLEW_PITCH_UP_SLOW"></cmd-button>
+    <cmd-button caption="Stop" cmd="cmd/SLEW_PITCH_FREEZE"></cmd-button>
+    <cmd-button caption="Down Slow" cmd="cmd/SLEW_PITCH_DN_SLOW"></cmd-button>
+    <cmd-button caption="Down Fast" cmd="cmd/SLEW_PITCH_DN_FAST"></cmd-button>
+    <cmd-button caption="Faster up" cmd="cmd/SLEW_PITCH_PLUS"></cmd-button>
+    <cmd-button caption="Slower up" cmd="cmd/SLEW_PITCH_MINUS"></cmd-button>
+  </div>
+</fieldset>

@@ -1,0 +1,88 @@
+<div>
+  <h1>Scenarios</h1>
+
+
+  <!-- Tab links -->
+<div class="tab">
+  <button
+    *ngFor="let page of scenarios.pages"
+    [ngClass]="{tablinks : true, active : page.isFirst()}"
+    (click)="selectTab($event, page.name)"
+  >{{page.name}}</button>
+</div>
+
+<!-- tab pages -->
+<div
+  *ngFor="let page of scenarios.pages"
+  id="{{page.name}}"
+  [ngClass]="{tabcontent : !page.isFirst(), tabcontent_active : page.isFirst()}"
+  >
+    <cmd-button
+      *ngFor="let item of page.items"
+      caption="{{item.title}}"
+      cmd="/scenario/load?file={{item.filename}}"
+    ></cmd-button>
+    <h3>Preset Positions</h3>
+    <cmd-button
+      *ngFor="let item of positions.safeFindItemsFor(page.name).items"
+      caption="{{item.title}}"
+      cmd="/position/load?file={{item.filename}}"
+    ></cmd-button>
+</div>
+
+<!-- TODO - make this a modal dialog form -->
+<div id="save_scenario_dialog" style="display:none">
+<fieldset>
+  <legend>Save Scenario</legend>
+  <app-named-item #scenario_details></app-named-item>
+  <button class="action" (click)="saveScenario(scenario_details)">Save Scenario</button>
+</fieldset>
+<cmd-button caption="Reset scenario" cmd="cmd/SITUATION_RESET"></cmd-button>
+</div>
+
+<!-- Not really needed on IOS..
+<fieldset>
+  <legend>Current Position</legend>
+  <textarea enabled="false" #current_position></textarea>
+  <button class="action" (click)="showCurrentPosition(current_position)">Show Current Position</button>
+</fieldset>
+-->
+
+<!-- TODO - make this a modal dialog form -->
+<div id="save_position_dialog" style="display:none">
+<fieldset>
+  <legend>Save Position</legend>
+  <app-named-item #position_details></app-named-item>
+  <button class="action" (click)="savePosition(position_details)">Save Position</button>
+</fieldset>
+</div>
+
+<fieldset class="solid">
+  <legend>Rewind Position</legend>
+    <button class="action" (click)="startRewind(rewind_slider)" style="display:inline-block">Start</button>
+    <div class="slidecontainer" style="display:inline-block; width:80%">
+      <input type="range" min="1" max="100" value="50" class="slider"
+      style="display:inline-block; width:100%"
+      (change)="rewindChange(rewind_slider)"
+      #rewind_slider>
+    </div>
+    <button class="action" (click)="stopRewind(rewind_slider)" style="float:right; display:inline-block">Stop</button>
+
+</fieldset>
+
+<fieldset class="solid">
+  <legend>Move Position</legend>
+  <cmd-button caption="Up 1000 feet" cmd="/position/up?feet=1000"></cmd-button>
+  <cmd-button caption="Up 500 feet" cmd="/position/up?feet=500"></cmd-button>
+  <cmd-button caption="Up 100 feet" cmd="/position/up?feet=100"></cmd-button>
+  <cmd-button caption="Down 100 feet" cmd="/position/down?feet=100"></cmd-button>
+  <cmd-button caption="Down 500 feet" cmd="/position/down?feet=500"></cmd-button>
+  <cmd-button caption="Down 1000 feet" cmd="/position/down?feet=1000"></cmd-button>
+</fieldset>
+
+<div style="padding-top:10px">
+  <cmd-button caption="Reset Scenario" cmd="cmd/SITUATION_RESET"></cmd-button>
+  <button class="action">Save Scenario</button>
+  <button class="action">Save Position</button>
+</div>
+</div>

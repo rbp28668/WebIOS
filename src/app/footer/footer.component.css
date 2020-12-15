@@ -1,0 +1,12 @@
+/* Style the footer */
+footer {
+  flex:0;
+  background-color: #000;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  border-top-style: solid;
+  border-color: #333;
+
+  width: 100%;
+}

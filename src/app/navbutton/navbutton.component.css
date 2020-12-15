@@ -1,0 +1,18 @@
+button {
+  background-color: #202020;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  border-radius: 10px;
+  width:100%
+}
+
+button.pressed {
+   color: black;
+   background-color: #777;
+}

@@ -1,0 +1,5 @@
+/* Style the navigation menu */
+nav {
+  flex: 1;
+  background-color: #000;
+}

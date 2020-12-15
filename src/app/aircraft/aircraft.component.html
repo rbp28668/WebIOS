@@ -1,0 +1,81 @@
+<div>
+  <fieldset class="solid" style="display:inline">
+    <legend>Flaps</legend>
+    <cmd-button caption="Up" cmd="cmd/FLAPS_UP"></cmd-button>
+    <cmd-button caption="1" cmd="cmd/FLAPS_1"></cmd-button>
+    <cmd-button caption="2" cmd="cmd/FLAPS_1"></cmd-button>
+    <cmd-button caption="3" cmd="cmd/FLAPS_3"></cmd-button>
+    <cmd-button caption="4" cmd="cmd/FLAPS_4"></cmd-button>
+    <cmd-button caption="Down" cmd="cmd/FLAPS_DOWN"></cmd-button>
+  </fieldset>
+  <fieldset class="solid" style="display:inline">
+    <legend>Elevator Trim</legend>
+    <cmd-button caption="Up" cmd="cmd/ELEV_TRIM_UP"></cmd-button>
+    <cmd-button caption="Down" cmd="cmd/ELEV_TRIM_DN"></cmd-button>
+  </fieldset>
+
+  <fieldset class="solid" style="display:inline">
+    <legend>Spoilers</legend>
+    <cmd-button caption="On" cmd="cmd/SPOILERS_ON"></cmd-button>
+    <cmd-button caption="Off" cmd="cmd/SPOILERS_OFF"></cmd-button>
+  </fieldset>
+
+  <fieldset class="solid" style="display:inline">
+    <legend>Gear</legend>
+    <cmd-button caption="Up" cmd="cmd/GEAR_UP"></cmd-button>
+    <cmd-button caption="Down" cmd="cmd/GEAR_DOWN"></cmd-button>
+  </fieldset>
+
+  <fieldset class="solid"  style="display:inline">
+    <legend>Altimeter</legend>
+    <!-- Syncs altimeter setting to sea level pressure, or 29.92 if above 18000 feet -->
+    <cmd-button caption="Baro" cmd="cmd/BAROMETRIC"></cmd-button>
+    <!--Increments altimeter setting -->
+    <cmd-button caption="Inc" cmd="cmd/KOHLSMAN_INC"></cmd-button>
+    <!-- Decrements altimeter setting -->
+    <cmd-button caption="Dec" cmd="cmd/KOHLSMAN_DEC"></cmd-button>
+    <!-- Sets altimeter setting (Millibars * 16)-->
+    <label for="hPa" style="font-size:20px; margin-left:50px;">hPa</label>
+    <input type="number"
+      min="900" max="1100"
+      name="hPa"
+      id="hPa"
+      value="1013"
+      style="font-size:20px; margin-left:20px; margin-right:20px"
+      #hPa
+      (change)="updatehPaCmd(kohlsman_set, hPa)"
+    >
+    <cmd-button caption="Set" cmd="cmd/KOHLSMAN_SET?value=16208" #kohlsman_set></cmd-button>
+
+  </fieldset>
+
+
+  <fieldset class="solid" >
+    <legend>Misc</legend>
+    <cmd-button caption="Request Tow Plane" cmd="cmd/TOW_PLANE_REQUEST"></cmd-button>
+    <cmd-button caption="Cable Release" cmd="cmd/TOW_PLANE_RELEASE"></cmd-button>
+    <cmd-button caption="Autorudder toggle" cmd="cmd/AUTORUDDER_TOGGLE"></cmd-button>
+    <cmd-button caption="Freeze Altitude Toggle" cmd="cmd/FREEZE_ALTITUDE_TOGGLE"></cmd-button>
+    <cmd-button caption="Freeze Altitude Set" cmd="cmd/FREEZE_ALTITUDE_SET"></cmd-button>
+    <cmd-button caption="Reset G Meter" cmd="cmd/RESET_G_FORCE_INDICATOR"></cmd-button>
+    <cmd-button caption="Toggle Water Ballast Valve" cmd="cmd/TOGGLE_WATER_BALLAST_VALVE"></cmd-button>
+    <cmd-button caption="Toggle Vario" cmd="cmd/TOGGLE_VARIOMETER_SWITCH"></cmd-button>
+    <cmd-button caption="Toggle Turn Indicator" cmd="cmd/TOGGLE_TURN_INDICATOR_SWITCH"></cmd-button>
+  </fieldset>
+
+  <fieldset class="solid" >
+    <legend>Sim</legend>
+    <cmd-button caption="Toggle Pause" cmd="cmd/PAUSE_TOGGLE"></cmd-button>
+    <cmd-button caption="Pause On" cmd="cmd/PAUSE_ON"></cmd-button>
+    <cmd-button caption="Pause Off" cmd="cmd/PAUSE_OFF"></cmd-button>
+    <cmd-button caption="Save Situation" cmd="cmd/SITUATION_SAVE"></cmd-button>
+    <cmd-button caption="Reset Situation" cmd="cmd/SITUATION_RESET"></cmd-button>
+    <cmd-button caption="Toggle Aircraft Labels" cmd="cmd/TOGGLE_AIRCRAFT_LABELS"></cmd-button>
+    <cmd-button caption="Reset Sim" cmd="cmd/SIM_RESET"></cmd-button>
+    <cmd-button caption="Refresh Scenery" cmd="cmd/REFRESH_SCENERY"></cmd-button>
+    <cmd-button caption="Capture Screenshot" cmd="cmd/CAPTURE_SCREENSHOT"></cmd-button>
+    <cmd-button caption="Exit" cmd="cmd/EXIT"></cmd-button>
+    <cmd-button caption="Abort" cmd="cmd/ABORT"></cmd-button>
+  </fieldset>
+
+</div>
