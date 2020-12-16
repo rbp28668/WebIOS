@@ -1,4 +1,6 @@
+import { Injectable } from "@angular/core";
 // Singleton injectable settings class.  Holds the main application settings.
+@Injectable()
 export class Settings {
   private _api_host: string;
   private _api_port: number;
