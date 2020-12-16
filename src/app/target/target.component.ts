@@ -65,7 +65,7 @@ export class TargetComponent implements OnInit {
 
   }
 
-  private clicked(event : MouseEvent){
+  public clicked(event : MouseEvent){
     console.log(event);
     //console.log(event.clientX);
     //console.log(event.clientY);

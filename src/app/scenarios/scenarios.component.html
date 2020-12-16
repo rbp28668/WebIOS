@@ -5,7 +5,7 @@
   <!-- Tab links -->
 <div class="tab">
   <button
-    *ngFor="let page of scenarios.pages"
+    *ngFor="let page of getScenarios().pages"
     [ngClass]="{tablinks : true, active : page.isFirst()}"
     (click)="selectTab($event, page.name)"
   >{{page.name}}</button>
@@ -13,7 +13,7 @@
 
 <!-- tab pages -->
 <div
-  *ngFor="let page of scenarios.pages"
+  *ngFor="let page of getScenarios().pages"
   id="{{page.name}}"
   [ngClass]="{tabcontent : !page.isFirst(), tabcontent_active : page.isFirst()}"
   >
@@ -24,7 +24,7 @@
     ></cmd-button>
     <h3>Preset Positions</h3>
     <cmd-button
-      *ngFor="let item of positions.safeFindItemsFor(page.name).items"
+      *ngFor="let item of getPositions().safeFindItemsFor(page.name).items"
       caption="{{item.title}}"
       cmd="/position/load?file={{item.filename}}"
     ></cmd-button>

@@ -18,4 +18,7 @@ export class NamedItemComponent implements OnInit {
   title() : String { return this.model.title;}
   description() : String { return this.model.description;}
 
+  public getModel() : NamedItem {
+    return this.model;
+  }
 }

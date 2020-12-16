@@ -3,7 +3,7 @@
   <form (ngSubmit)="onSubmit()" #settingsForm="ngForm">
       <label for="host">Host</label>
       <input type="text" class="form-control" id="host" required
-        [(ngModel)]="model.api_host" name="host"
+        [(ngModel)]="getModel().api_host" name="host"
         #host="ngModel"
       >
 
@@ -13,12 +13,12 @@
 
       <label for="port">Port</label>
       <input type="text" class="form-control" id="port"
-        [(ngModel)]="model.api_port" name="port"
+        [(ngModel)]="getModel().api_port" name="port"
       >
 
       <label for="title">Title</label>
       <input type="text" class="form-control" id="title"
-        [(ngModel)]="model.title" name="title"
+        [(ngModel)]="getModel().title" name="title"
       >
 
     <button type="submit" class="btn btn-default"   [disabled]="!settingsForm.form.valid">Save Settings</button>
@@ -26,6 +26,6 @@
   </form>
 
   <div [hidden]="!submitted">
-    Endpoint is {{model.api_host}} : {{model.api_port}}
+    Endpoint is {{getModel().api_host}} : {{getModel().api_port}}
   </div>
 </div>

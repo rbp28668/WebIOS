@@ -55,7 +55,7 @@ class GroupedItems {
     }
 
     // Function that's guaranteed to return a list even if no match.
-    private safeFindItemsFor(site : String) : NamedItemList {
+    public safeFindItemsFor(site : String) : NamedItemList {
       var page: NamedItemList = this.findItemsFor(site);
       if(page === null){
         page = new NamedItemList("",0);
@@ -257,4 +257,13 @@ export class ScenariosComponent implements OnInit {
     document.getElementById(tabName).className += "_active";
     evt.currentTarget.className += " active";
   }
+
+
+  public getScenarios() : GroupedItems {
+    return this.scenarios;
+  } 
+  public getPositions() : GroupedItems {
+    return this.positions;
+  } 
+
 }

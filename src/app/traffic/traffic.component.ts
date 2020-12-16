@@ -39,7 +39,7 @@ export class TrafficComponent implements OnInit {
 
 
 
-  trafficLaunch(
+  public trafficLaunch(
     range: number,
     speedKts: number,
     bearing: number,
@@ -54,10 +54,27 @@ export class TrafficComponent implements OnInit {
         this.logFailure(data);
       }
     }, (err: any) => { // on error
-      console.log("Error fetching aircraft");
+      console.log("Error launching aircraft");
       console.log(err);
     });
   }
 
+  public igcLaunch() {
 
+  }
+
+  public igcClear() {
+
+  }
+
+  // Returns the list of IGC files
+  public getIGCFiles() : Array<String> {
+    return this.files;
+  }
+
+    // Returns the list of available aircraft
+  public getAvailableAircraft() : Array<String> {
+      return this.aircraft;
+  }
+  
 }

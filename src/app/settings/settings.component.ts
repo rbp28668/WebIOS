@@ -20,4 +20,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
   }
 
+  public getModel() : Settings {
+    return this.model;
+  }
 }
