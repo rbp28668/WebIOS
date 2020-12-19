@@ -35,6 +35,22 @@ export class TrafficComponent implements OnInit {
       console.log("Error fetching aircraft");
       console.log(err);
     });
+
+    this.p3dcmd.igcList(null).subscribe( data => {
+      if(data.status === "OK") {
+        data.entries.forEach( file => {
+          this.files.push(file.filename);
+        });
+
+      } else { // failed
+        this.logFailure(data);
+      }
+    }, (err: any) => { // on error
+      console.log("Error fetching IGC files");
+      console.log(err);
+    });
+
+
   }
 
 
@@ -59,11 +75,29 @@ export class TrafficComponent implements OnInit {
     });
   }
 
-  public igcLaunch() {
+  public igcLaunch(igc_aircraft : String, igc_file : String, loop: boolean) {
+    this.p3dcmd.igcTraffic(igc_file, igc_aircraft, loop)
+    .subscribe(data => {
+      if(data.status !== "OK") {
+        this.logFailure(data);
+      }
+    }, (err: any) => { // on error
+      console.log("Error launching igc aircraft");
+      console.log(err);
+    });
 
   }
 
   public igcClear() {
+    this.p3dcmd.igcClear()
+    .subscribe(data => {
+      if(data.status !== "OK") {
+        this.logFailure(data);
+      }
+    }, (err: any) => { // on error
+      console.log("Error clearing igc aircraft");
+      console.log(err);
+    });
 
   }
 

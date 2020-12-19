@@ -170,7 +170,6 @@ export class P3dcmdService {
   }
 
 
-
   //////////////////////////////////////////////////////////////
   // IGC
   igcList(filter: String) : Observable<any> {
