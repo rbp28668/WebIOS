@@ -25,3 +25,26 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+# Setting up to work on this
+
+#Install NodeJS -see
+https://github.com/nodesource/distributions/blob/master/README.md#deb
+
+#Install basic angular cli
+sudo npm install -g @angular/cli
+
+#Get the project from Github
+mkdir ios
+cd ios
+git init
+git pull https://github.com/rbp28668/WebIOS
+
+#the critical non-obvious bit - pulls down all the
+#node dependencies (and fix audit output)
+npm install
+npm audit fix
+
+#compile and serve
+ng serve  
