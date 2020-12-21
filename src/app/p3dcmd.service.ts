@@ -616,7 +616,35 @@ export class P3dcmdService {
   //////////////////////////////////////////////////////////////
   // Log
 
-  //////////////////////////////////////////////////////////////
+  logOn( name : String, membershipNumber : number) : Observable<any> {
+    var url = this.baseUrl() + "log/logon";
+    url = url + "?name=" + URLEncode(name);
+    url = url + "&number=" + membershipNumber;
+    return this.http.get(url);
+  }
+
+  logOff( ) : Observable<any> {
+    var url = this.baseUrl() + "log/logoff";
+   return this.http.get(url);
+  }
+
+  private logMessage( type : String, msg : String) : Observable<any> {
+    var url = this.baseUrl() + "log/" + type;
+    url = url + "?message=" + URLEncode(msg);
+    return this.http.get(url);
+  }
+
+  logInfo(message : String) : Observable<any> {
+     return this.logMessage("info", message);
+  }
+  logWarning(message : String) : Observable<any> {
+    return this.logMessage("warn", message);
+  }
+  logError(message : String) : Observable<any> {
+    return this.logMessage("error", message);
+  }
+  
+//////////////////////////////////////////////////////////////
   // Panel
 
 
