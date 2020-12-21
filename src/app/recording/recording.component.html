@@ -1,1 +1,31 @@
-<p>recording works!</p>
+<div>
+    <h1>Recording</h1>
+
+    <button class="action" (click)="analyse()">Analyse</button>
+ 
+    <fieldset class="solid">
+        <legend>Record</legend>
+        <button class="action" (click)="startRecording()">Start</button>
+        <label for="title">Title</label>
+        <input type="text" id="title" #title style="font-size:20px" placeholder="title">
+        <label for="description">Description</label>
+        <input type="text" id="description" #description style="font-size:20px" placeholder="Description">
+        <button class="action" (click)="stopRecording(title, description)">Save</button>
+    </fieldset>
+
+    <fieldset class="solid">
+        <legend>Load Recording</legend>
+    
+    
+      <div style="display:inline-block">
+      <label for="recording">Recording</label>
+      <select id="recording" #recording style="font-size:20px">
+        <option *ngFor="let r of getRecordings()">{{r.title}}</option>
+      </select>
+       <button class="action" (click)="playRecording(recording)">Launch</button>
+    </div>
+    </fieldset>
+    
+
+</div>
+  

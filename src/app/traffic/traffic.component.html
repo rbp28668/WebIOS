@@ -46,7 +46,7 @@ aircraft.value,tail_number.value, relative_height.value)">Launch</button>
 <label for="loop">Loop file</label>
 <input type="checkbox" id="loop" #loop>
 <br>
-<button class="action" (click)="igcLaunch(igc_aircraft.value, igc_file.value, loop.value)">Launch</button>
+<button class="action" (click)="igcLaunch(igc_aircraft.value, igc_file.value, loop.value==='on')">Launch</button>
 <br>
 <button class="action" (click)="igcClear()">Clear IGC Traffic</button>
 </fieldset>
