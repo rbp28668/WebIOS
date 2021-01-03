@@ -26,7 +26,7 @@
     <cmd-button caption="Down" cmd="cmd/GEAR_DOWN"></cmd-button>
   </fieldset>
 
-  <fieldset class="solid"  style="display:inline">
+  <fieldset class="solid" style="display:inline">
     <legend>Altimeter</legend>
     <!-- Syncs altimeter setting to sea level pressure, or 29.92 if above 18000 feet -->
     <cmd-button caption="Baro" cmd="cmd/BAROMETRIC"></cmd-button>
@@ -35,25 +35,56 @@
     <!-- Decrements altimeter setting -->
     <cmd-button caption="Dec" cmd="cmd/KOHLSMAN_DEC"></cmd-button>
     <!-- Sets altimeter setting (Millibars * 16)-->
-    <label for="hPa" style="font-size:20px; margin-left:50px;">hPa</label>
-    <input type="number"
-      min="900" max="1100"
-      name="hPa"
-      id="hPa"
-      value="1013"
-      style="font-size:20px; margin-left:20px; margin-right:20px"
-      #hPa
-      (change)="updatehPaCmd(kohlsman_set, hPa)"
-    >
+    <div class="inputfield">
+      <label for="hPa" style="font-size:20px; margin-left:50px;">hPa</label>
+      <input type="number" min="900" max="1100" name="hPa" id="hPa" value="1013"
+        style="font-size:20px; margin-left:20px; margin-right:20px" #hPa (change)="updatehPaCmd(kohlsman_set, hPa)">
+    </div>
     <cmd-button caption="Set" cmd="cmd/KOHLSMAN_SET?value=16208" #kohlsman_set></cmd-button>
 
   </fieldset>
 
+  <fieldset class="solid">
+    <legend>Primary Control</legend>
+    <div class="inputfield">
+      <label for="aileron">Aileron</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="aileron" #aileron
+        (input)="sendControlValue('AILERON_SET', aileron.value )">
+    </div>
+    <div class="inputfield">
+      <label for="elevator">Elevator</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="elevator" #elevator
+        (input)="sendControlValue('ELEVATOR_SET', elevator.value)">
+    </div>
+    <div class="inputfield">
+      <label for="rudder">Rudder</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="rudder" #rudder
+        (input)="sendControlValue('RUDDER_SET', rudder.value)">
+    </div>
+  </fieldset>
 
-  <fieldset class="solid" >
+  <fieldset class="solid">
+    <legend>Fail</legend>
+    <cmd-button caption="Toggle blocked Pitot" cmd="cmd/TOGGLE_PITOT_BLOCKAGE"></cmd-button>
+    <cmd-button caption="Toggle blocked Static" cmd="cmd/TOGGLE_STATIC_PORT_BLOCKAGE"></cmd-button>
+    <cmd-button caption="Toggle wheel brake failure" cmd="cmd/TOGGLE_TOTAL_BRAKE_FAILURE"></cmd-button>
+    <cmd-button caption="Toggle electrical failure" cmd="cmd/TOGGLE_ELECTRICAL_FAILURE"></cmd-button>
+    <cmd-button caption="Toggle engine failure" cmd="cmd/TOGGLE_ENGINE1_FAILURE"></cmd-button>
+  </fieldset>
+
+  <fieldset class="solid">
+    <legend>Engine</legend>
+    <cmd-button caption="Auto Start" cmd="cmd/ENGINE_AUTO_START"></cmd-button>
+    <cmd-button caption="Auto Shutdown" cmd="cmd/ENGINE_AUTO_SHUTDOWN"></cmd-button>
+    <cmd-button caption="Throttle Cut" cmd="cmd/THROTTLE_CUT"></cmd-button>
+    <cmd-button caption="Throttle Down" cmd="cmd/THROTTLE_DECR"></cmd-button>
+    <cmd-button caption="Throttle Up" cmd="cmd/THROTTLE_INCR"></cmd-button>
+    <cmd-button caption="Throttle Full" cmd="cmd/THROTTLE_FULL"></cmd-button>
+  </fieldset>
+
+
+  <fieldset class="solid">
     <legend>Misc</legend>
-    <cmd-button caption="Request Tow Plane" cmd="cmd/TOW_PLANE_REQUEST"></cmd-button>
-    <cmd-button caption="Cable Release" cmd="cmd/TOW_PLANE_RELEASE"></cmd-button>
     <cmd-button caption="Autorudder toggle" cmd="cmd/AUTORUDDER_TOGGLE"></cmd-button>
     <cmd-button caption="Freeze Altitude Toggle" cmd="cmd/FREEZE_ALTITUDE_TOGGLE"></cmd-button>
     <cmd-button caption="Freeze Altitude Set" cmd="cmd/FREEZE_ALTITUDE_SET"></cmd-button>
@@ -63,13 +94,13 @@
     <cmd-button caption="Toggle Turn Indicator" cmd="cmd/TOGGLE_TURN_INDICATOR_SWITCH"></cmd-button>
   </fieldset>
 
-  <fieldset class="solid" >
+  <fieldset class="solid">
     <legend>Sim</legend>
     <cmd-button caption="Toggle Pause" cmd="cmd/PAUSE_TOGGLE"></cmd-button>
     <cmd-button caption="Pause On" cmd="cmd/PAUSE_ON"></cmd-button>
     <cmd-button caption="Pause Off" cmd="cmd/PAUSE_OFF"></cmd-button>
-    <cmd-button caption="Save Situation" cmd="cmd/SITUATION_SAVE"></cmd-button>
-    <cmd-button caption="Reset Situation" cmd="cmd/SITUATION_RESET"></cmd-button>
+    <cmd-button caption="Save Scenario" cmd="cmd/SITUATION_SAVE"></cmd-button>
+    <cmd-button caption="Reset Scenario" cmd="cmd/SITUATION_RESET"></cmd-button>
     <cmd-button caption="Toggle Aircraft Labels" cmd="cmd/TOGGLE_AIRCRAFT_LABELS"></cmd-button>
     <cmd-button caption="Reset Sim" cmd="cmd/SIM_RESET"></cmd-button>
     <cmd-button caption="Refresh Scenery" cmd="cmd/REFRESH_SCENERY"></cmd-button>

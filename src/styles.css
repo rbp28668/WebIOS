@@ -13,20 +13,86 @@ html, body, app-root {
   min-height: 100vh;
 }
 
+:root {
+  --main-font-size: 20pt;
+  --label-font-size: 18pt;
+  --label-display: inline-block;
+  --label-width: 40%;
+}
+
+
+/* Reformat on small devices */
+@media (max-width: 600px) {
+  :root {
+    --main-font-size: 16pt;
+    --label-font-size: 14pt;
+    --label-display: block; /* stack fields vertically for small devices */
+    --label-width: 100%;    /* and labels can now take up full width */
+  }
+   /* Responsive layout - makes the menu and the content (inside the section) sit
+ on top of each other instead of next to each other.
+ header and footer do anyway. */
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+
 app-root {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
+  font-size: var(--main-font-size);
   background-color: #000;
   color: #fff;
   display: flex;
   flex-direction: column;
 }
 
-/* Drop font on small devices */
-@media (max-width: 600px) {
-  app-root {
-    font-size:16px;
-  }
+body {
+  background-color: #000;
+}
+
+/* top level div that wraps a page */
+div.top-container {
+  font-size:var(--main-font-size);
+  display: block;
+}
+
+/* div to wrap a label and its field */
+div.inputfield {
+  display: block;
+  font-size:var(--main-font-size);
+  margin-top: 4px;
+  margin-bottom:3px;
+}
+
+div.inputfield label {
+  font-style: italic;
+  display: var(--label-display);
+  font-size:var(--label-font-size);
+  margin-right: 2em;
+  width: var(--label-width);
+}
+
+
+/* make sure most components have default font sizes for consistency */
+fieldset {
+  font-size:var(--main-font-size);
+}
+legend {
+  font-size:var(--main-font-size);
+}
+button {
+  font-size:var(--main-font-size);
+}
+select {
+  font-size:var(--main-font-size);
+}
+input {
+  font-size:var(--main-font-size);
+}
+textarea {
+  font-size:var(--main-font-size);
 }
 
 
@@ -37,8 +103,6 @@ section {
   border-top-style: solid;
   border-color: #333;
 }
-
-
 
 /* Style the content */
 article {
@@ -70,30 +134,20 @@ article {
   flex-direction: column;
 }
 
-/* Responsive layout - makes the menu and the content (inside the section) sit
- on top of each other instead of next to each other.
- header and footer do anyway.
- */
-@media (max-width: 600px) {
-  section {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
 
 button.action {
   background-color: #202020;
   border: none;
   color: white;
-  padding: 20px;
+  padding: 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 20px;
   margin: 4px 2px;
   border-radius: 10px;
 }
 
+/* solid fieldset to provide a better grouping of fields */
 fieldset.solid {
   border-radius:10px;
   background-color:#444;
@@ -102,11 +156,67 @@ fieldset.solid {
 }
 
 fieldset.solid legend {
-  font-size:20px;
   background-color:#444;
   padding-top:5px;
   padding-left:10px;
   padding-right:10px;
   border-top-left-radius:10px;
   border-top-right-radius:10px;
+}
+
+/* ===========================================================================
+* Standard tab handling styles 
+* ===========================================================================*/
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  /*border: 1px solid #ccc; */
+  background-color: #000; /*#f1f1f1;*/
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: #202020; /* inherit; */
+  color:white;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  color:white;
+  background-color: #444;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  /*border: 1px solid #ccc;
+  border-top: none;
+  */
+  background-color: #ddd;
+
+}
+
+.tabcontent_active{
+  display: block;
+  padding: 6px 12px;
+  border: none;
+  background-color: #444;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }

@@ -1,17 +1,505 @@
-<div>
-  <fieldset>
-  <legend>Drop Thermal</legend>
-  <cmd-button caption="Normal" cmd="/thermal/drop"></cmd-button>
-  <cmd-button caption="Space Elevator" cmd="/thermal/drop?radius=1000&height=4000&rate=5"></cmd-button>
-  </fieldset>
+<div class="top-container">
 
+  <div>
+    <fieldset class="solid">
+      <legend>Drop Thermal</legend>
+      <cmd-button caption="Normal" cmd="/thermal/drop"></cmd-button>
+      <cmd-button caption="Space Elevator" cmd="/thermal/drop?radius=1000&height=4000&rate=5"></cmd-button>
+    </fieldset>
+
+  </div>
+
+  <div class="filler"></div>
+  
+  <!-- Tab links -->
+  <div class="tab">
+    <button [ngClass]="{tablinks : true, active : true}" (click)="selectTab($event, 'themetab')">Themes</button>
+    <button [ngClass]="{tablinks : true, active : false}" (click)="selectTab($event, 'globaltab')">Global</button>
+    <button [ngClass]="{tablinks : true, active : false}" (click)="selectTab($event, 'customtab')">Custom</button>
+  </div>
+
+  <!-- tab pages -->
+  <div id="themetab" [ngClass]="{tabcontent : true, tabcontent_active : true}">
+    <fieldset>
+      <legend>Weather Themes</legend>
+      <div class="inputfield">
+        <label for="themes">Weather Themes</label>
+        <select id="themes" #themes (change)="themeSelected(themes.value,description)">
+          <option *ngFor="let a of getThemes()" value="{{a.name}}">{{a.title}}</option>
+        </select>
+        <textarea id="theme_description" #description disabled="true"></textarea>
+      </div>
+      <button class="action" (click)="setTheme(themes.value)">Use Theme</button>
+    </fieldset>
+
+  </div>
+
+  <!-- GLOBAL -->
+  <div id="globaltab" [ngClass]="{tabcontent : true, tabcontent_active : false}">
+    <div #globalMetar>{{getGlobalMetar()}}</div>
+    <button class="action" (click)="useGlobal()">Use Global Settings</button>
+    <button class="action" (click)="refresh(globalMetar)">Refresh</button>
+
+    <fieldset>
+      <legend>Wind</legend>
+      <div class="inputfield">
+        <label for="gwinddirn">Wind Direction</label>
+        <input type="number" id="gwinddirn" #gwinddirn>
+      </div>
+      <div class="inputfield">
+        <label for="gwindspeed">Windspeed(kts)</label>
+        <input type="number" id="gwindspeed" #gwindspeed>
+      </div>
+      <div class="inputfield">
+        <label for="ggusts">Gusts(kts)</label>
+        <input type="number" id="ggusts" #ggusts>
+      </div>
+      <div class="inputfield">
+        <label for="gturbulence">Turbulence</label>
+        <select id="gturbulence" #gturbulence>
+          <option value="N">None</option>
+          <option value="L">Light</option>
+          <option value="M">Moderate</option>
+          <option value="H">Heavy</option>
+          <option value="S">Severe</option>
+        </select>
+      </div>
+      <div class="inputfield">
+        <label for="gwindshear">Windshear</label>
+        <select id="gwindshear" #gwindshear>
+          <option value="G">Gradual</option>
+          <option value="M">Moderate</option>
+          <option value="S">Steep</option>
+          <option value="I">Instantaneous</option>
+        </select>
+      </div>
+
+      <button class="action"
+        (click)="setGlobalWind(gwindspeed.value, gwinddirn.value, ggusts.value, gturbulence.value, gwindshear.value)">Set
+        Wind</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Visibility</legend>
+      <div class="inputfield">
+        <label for="gvisibility">Visibility (miles)</label>
+        <input type="number" id="gvisibility" #gvisibility>
+      </div>
+      <button class="action" (click)="setGlobalVisibility(gvisibility.value )">Set Visibility</button>
+    </fieldset>
+
+    <!-- Doesn't really make sense for global
   <fieldset>
-    <legend>Weather Themes</legend>
-  </fieldset>
+    <legend>Runway Visual Range</legend>
+    <label for="grvrrunway">Runway</label>
+    <input type="number" id="grvrrunway" #grvrrunway>
+    <label for="grvr">Runway Visual Range (feet)</label>
+    <input type="number" id="grvr" #grvr>
+    <button class="action" (click)="setGlobalRVR(grvrrunway.value, grvr.value)">Set RVR</button>
+   </fieldset>
+   -->
+    <!--
   <fieldset>
-    <legend>Global Weather</legend>
+    <legend>Present Conditions</legend>
+    <div class="inputfield">
+      <label for="gintensity">Intensity</label>
+      <select id="gintensity" #gintensity>
+        <option value="light">Light</option>
+        <option value="moderate">Moderate</option>
+        <option value="severe">Severe</option>
+      </select>
+    </div>
+
+    <div class="inputfield">
+      <label for="gvicinity">Local</label>
+      <input type="checkbox" id="gvicinity" #gvicinity>
+    </div>
+    <div class="inputfield">
+      <label for="gdescriptor">Descriptor</label>
+      <select id="gdescriptor" #gdescriptor>
+        <option value="MI">shallow</option>
+        <option value="PR">partial</option>
+        <option value="DC">patches</option>
+        <option value="DR">low drifting</option>
+        <option value="BL">blowing</option>
+        <option value="SH">shower</option>
+        <option value="TS">thunderstorm</option>
+        <option value="FZ">freezing</option>
+      </select>
+    </div>
+    <div class="inputfield">
+      <label for="gphenomena">Phenomena</label>
+      <select id="gphenomena" #gphenomena>
+        <option value="DZ">drizzle</option>
+        <option value="RA">rain</option>
+        <option value="SN">snow</option>
+        <option value="SG">snow grains</option>
+        <option value="IC">ice crystals</option>
+        <option value="PE">ice pellets</option>
+        <option value="GR">hail</option>
+        <option value="GS">small hail/snow pellets</option>
+        <option value="UP">unknown</option>
+
+        <option value="BR">mist</option>
+        <option value="FG">fog</option>
+        <option value="FU">smoke</option>
+        <option value="VA">volcanic ash</option>
+        <option value="DU">dust</option>
+        <option value="SA">sand</option>
+        <option value="HZ">haze</option>
+        <option value="PY">spray</option>
+
+        <option value="PO">dust whirls</option>
+        <option value="SQ">squalls</option>
+        <option value="FC">funnel cloud/tornado/waterspout</option>
+        <option value="SS">sandstorm</option>
+        <option value="DS">duststorm</option>
+      </select>
+    </div>
+    <button class="action"
+      (click)="setGlobalPresentConditions(gintensity.value, gvicinity.value, gdescriptor.value, gphenomena.value)">Set
+      Conditions</button>
+
   </fieldset>
+  -->
+
+    <fieldset>
+      <legend>Partial Obscuration</legend>
+      <div class="inputfield">
+        <label for="gpartialobs">Quanitity</label>
+        <select id="gpartialobs" #gpartialobs>
+          <option value="few">few</option>
+          <option value="scattered">scattered</option>
+          <option value="broken">broken</option>
+        </select>
+      </div>
+      <button class="action" (click)="setGlobalPartialObscuration(gpartialobs.value)">Set Partial Obscuration</button>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Sky Conditions</legend>
+      <!--
+    <label for="gcloudcover">Cloud Cover</label>
+    <select id="gcloudcover" #gcloudcover>
+      <option value="SKC">sky clear</option>
+      <option value="FEW">few clouds</option>
+      <option value="SCT">scattered clouds</option>
+      <option value="BKN">broken clouds</option>
+      <option value="OVC">overcast</option>
+    </select>
+    -->
+      <div class="inputfield">
+        <label for="gcloudeighths">Cloud Cover (eighths)</label>
+        <input type="range" min="0" max="8" value="3" class="slider" #gcloudeighths>
+      </div>
+
+      <div class="inputfield">
+        <label for="gcloudtype">of type</label>
+        <select id="gcloudtype" #gcloudtype>
+          <option value="CS">Cirro-stratus</option>
+          <option value="CC">Cirro-cumulus</option>
+          <option value="AS">Alto-stratus</option>
+          <option value="AC">Alto-cumulus</option>
+          <option value="SC">Strato-cumulus</option>
+          <option value="NS">Nimbo-stratus</option>
+          <option value="ST">Stratus</option>
+          <option value="CU">Cumulus</option>
+          <option value="CB">Cumulo-nimbus</option>
+        </select>
+      </div>
+      <div class="inputfield">
+        <label for="gcloudheight">Cloud Height (feet)</label>
+        <input type="number" id="gcloudheight" #gcloudheight>
+      </div>
+      <button class="action"
+        (click)="setGlobalSkyConditions(gcloudeighths.value, gcloudtype.value, gcloudheight.value)">Set Sky
+        Conditions</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Temperature</legend>
+      <div class="inputfield">
+        <label for="gtemp">Surace Temp (C)</label>
+        <input type="number" id="gtemp" #gtemp>
+      </div>
+
+      <div class="inputfield">
+
+        <label for="gdewpoint">Dewpoint (C)</label>
+        <input type="number" id="gdewpoint" #gdewpoint>
+      </div>
+      <button class="action" (click)="setGlobalTemperature(gtemp.value, gdewpoint.value)">Set Temperature</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Altimeter (QNH)</legend>
+      <div class="inputfield">
+        <label for="gqnh">QNH (hPa)</label>
+        <input type="number" id="gqnh" #gqnh>
+      </div>
+      <button class="action" (click)="setGlobalQNH(gqnh.value)">Set QNH</button>
+    </fieldset>
+
+  </div>
+
+  <!-- CUSTOM -->
+  <div id="customtab" [ngClass]="{tabcontent : true, tabcontent_active : false}">
+    <fieldset>
+      <legend>Custom Weather</legend>
+      <button class="action" (click)="useCustom()">Use Custom Settings</button>
+      <button class="action" (click)="refreshStations(currentstation)">Refresh Stations</button>
+      <div class="inputfield">
+        <label for="station">Use this Airfield</label>
+        <select id="currentstation" #currentstation>
+          <option *ngFor="let station of getStations()">
+            {{station}}
+          </option>
+        </select>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Add Station</legend>
+      <div>
+        <div class="inputfield">
+          <label for="station">ICAO Airfield</label>
+          <input type="text" id="station" #station>
+        </div>
+        <button class="action" (click)="addCustom(station.value, currentstation)">Add Station</button>
+      </div>
+      <div>
+        <div class="inputfield">
+          <label for="icao">ICAO Airfield</label>
+          <input type="text" id="icao" #icao>
+        </div>
+        <div class="inputfield">
+          <label for="friendlyname">Airfield Name</label>
+          <input type="text" id="friendlyname" #friendlyname>
+        </div>
+        <button class="action" (click)="addCustomHere(icao.value, friendlyname.value, currentstation)">Add Station
+          Here</button>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Wind</legend>
+      <div class="inputfield">
+        <label for="gwinddirn">Wind Direction</label>
+        <input type="number" id="cwinddirn" #cwinddirn>
+      </div>
+      <div class="inputfield">
+        <label for="cwindspeed">Windspeed(kts)</label>
+        <input type="number" id="cwindspeed" #cwindspeed>
+      </div>
+      <div class="inputfield">
+        <label for="cgusts">Gusts(kts)</label>
+        <input type="number" id="cgusts" #cgusts>
+      </div>
+      <div class="inputfield">
+        <label for="cturbulence">Turbulence</label>
+        <select id="cturbulence" #cturbulence>
+          <option value="N">None</option>
+          <option value="L">Light</option>
+          <option value="M">Moderate</option>
+          <option value="H">Heavy</option>
+          <option value="S">Severe</option>
+        </select>
+      </div>
+      <div class="inputfield">
+        <label for="cwindshear">Windshear</label>
+        <select id="cwindshear" #cwindshear>
+          <option value="G">Gradual</option>
+          <option value="M">Moderate</option>
+          <option value="S">Steep</option>
+          <option value="I">Instantaneous</option>
+        </select>
+      </div>
+      <button class="action"
+        (click)="setCustomWind(currentstation.value, cwindspeed.value, cwinddirn.value, cgusts.value, cturbulence.value, cwindshear.value)">Set
+        Wind</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Visibility</legend>
+      <div class="inputfield">
+        <label for="cvisibility">Visibility (miles)</label>
+        <input type="number" id="cvisibility" #cvisibility>
+      </div>
+      <button class="action" (click)="setCustomVisibility(currentstation.value, cvisibility.value)">Set
+        Visibility</button>
+    </fieldset>
+
+    <!-- Doesn't seem to have any effect 
   <fieldset>
-    <legend>Custom Weather</legend>
+    <legend>Runway Visual Range</legend>
+    <div class="inputfield">
+      <label for="crvrrunway">Runway</label>
+      <input type="number" id="crvrrunway" #crvrrunway>
+    </div>
+    <div class="inputfield">
+      <label for="crvr">Runway Visual Range (feet)</label>
+      <input type="number" id="crvr" #crvr>
+    </div>
+    <div class="inputfield">
+      <label for="crvrtime">Transition (seconds)</label>
+      <input type="number" id="crvrtime" #crvrtime>
+    </div>
+    <button class="action" (click)="setCustomRVR(currentstation.value, crvrrunway.value, crvr.value, crvrtime.value)">Set
+      RVR</button>
+
   </fieldset>
+  -->
+
+    <!-- Has little if any discernable effect
+  <fieldset>
+    <legend>Present Conditions</legend>
+    <div class="inputfield">
+      <label for="cintensity">Intensity</label>
+      <select id="cintensity" #cintensity>
+        <option value="light">Light</option>
+        <option value="moderate">Moderate</option>
+        <option value="severe">Severe</option>
+      </select>
+    </div>
+    <div class="inputfield">
+      <label for="cvicinity">Local</label>
+      <input type="checkbox" id="cvicinity" #cvicinity>
+    </div>
+    <div class="inputfield">
+      <label for="cdescriptor">Descriptor</label>
+      <select id="cdescriptor" #cdescriptor>
+        <option value="MI">shallow</option>
+        <option value="PR">partial</option>
+        <option value="DC">patches</option>
+        <option value="DR">low drifting</option>
+        <option value="BL">blowing</option>
+        <option value="SH">shower</option>
+        <option value="TS">thunderstorm</option>
+        <option value="FZ">freezing</option>
+      </select>
+    </div>
+
+    <div class="inputfield">
+      <label for="cphenomena">Phenomena</label>
+      <select id="cphenomena" #cphenomena>
+        <option value="DZ">drizzle</option>
+        <option value="RA">rain</option>
+        <option value="SN">snow</option>
+        <option value="SG">snow grains</option>
+        <option value="IC">ice crystals</option>
+        <option value="PE">ice pellets</option>
+        <option value="GR">hail</option>
+        <option value="GS">small hail/snow pellets</option>
+        <option value="UP">unknown</option>
+
+        <option value="BR">mist</option>
+        <option value="FG">fog</option>
+        <option value="FU">smoke</option>
+        <option value="VA">volcanic ash</option>
+        <option value="DU">dust</option>
+        <option value="SA">sand</option>
+        <option value="HZ">haze</option>
+        <option value="PY">spray</option>
+
+        <option value="PO">dust whirls</option>
+        <option value="SQ">squalls</option>
+        <option value="FC">funnel cloud/tornado/waterspout</option>
+        <option value="SS">sandstorm</option>
+        <option value="DS">duststorm</option>
+      </select>
+    </div>
+     <button class="action"
+      (click)="setCustomPresentConditions(currentstation.value, cintensity.value, cvicinity.value, cdescriptor.value, cphenomena.value)">Set
+      Conditions</button>
+
+  </fieldset>
+-->
+
+    <fieldset>
+      <legend>Partial Obscuration</legend>
+      <div class="inputfield">
+
+        <label for="cpartialobs">Quanitity</label>
+        <select id="cpartialobs" #cpartialobs>
+          <option value="few">few</option>
+          <option value="scattered">scattered</option>
+          <option value="broken">broken</option>
+        </select>
+      </div>
+      <button class="action" (click)="setCustomPartialObscuration(currentstation.value, cpartialobs.value)">Set
+        Partial Obscuration</button>
+
+    </fieldset>
+
+    <fieldset>
+      <legend>Sky Conditions</legend>
+      <!--
+    <div class="inputfield">
+      <label for="ccloudcover">Cloud Cover</label>
+      <select id="ccloudcover" #ccloudcover>
+        <option value="SKC">sky clear</option>
+        <option value="FEW">few clouds</option>
+        <option value="SCT">scattered clouds</option>
+        <option value="BKN">broken clouds</option>
+        <option value="OVC">overcast</option>
+      </select>
+    </div>
+  -->
+      <div class="inputfield">
+        <label for="ccloudeighths">Eighths</label>
+        <input type="range" min="0" max="8" value="3" class="slider" #ccloudeighths>
+      </div>
+      <div class="inputfield">
+        <label for="ccloudtype">of type</label>
+        <select id="ccloudtype" #ccloudtype>
+          <option value="CS">Cirro-stratus</option>
+          <option value="CC">Cirro-cumulus</option>
+          <option value="AS">Alto-stratus</option>
+          <option value="AC">Alto-cumulus</option>
+          <option value="SC">Strato-cumulus</option>
+          <option value="NS">Nimbo-stratus</option>
+          <option value="ST">Stratus</option>
+          <option value="CU">Cumulus</option>
+          <option value="CB">Cumulo-nimbus</option>
+        </select>
+      </div>
+      <div class="inputfield">
+        <label for="ccloudheight">Cloud Height (feet)</label>
+        <input type="number" id="ccloudheight" #ccloudheight>
+      </div>
+      <div class="inputfield">
+        <label for="csctime">Transition (seconds)</label>
+        <input type="number" id="csctime" #csctime>
+      </div>
+      <button class="action"
+        (click)="setCustomSkyConditions(currentstation.value, ccloudeighths.value, ccloudtype.value, ccloudheight.value, csctime.value)">Set
+        Sky Conditions</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Temperature</legend>
+      <div class="inputfield">
+        <label for="ctemp">Surace Temp (C)</label>
+        <input type="number" id="ctemp" #ctemp>
+      </div>
+      <div class="inputfield">
+        <label for="cdewpoint">Dewpoint (C)</label>
+        <input type="number" id="cdewpoint" #cdewpoint>
+      </div>
+      <button class="action" (click)="setCustomTemperature(currentstation.value, ctemp.value, cdewpoint.value)">Set
+        Temperature</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Altimeter (QNH)</legend>
+      <div class="inputfield">
+        <label for="cqnh">QNH (hPa)</label>
+        <input type="number" id="cqnh" #cqnh>
+      </div>
+      <button class="action" (click)="setCustomQNH(currentstation.value, cqnh.value)">Set QNH</button>
+    </fieldset>
+
+
+  </div>
 </div>

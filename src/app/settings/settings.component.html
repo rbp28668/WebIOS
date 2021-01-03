@@ -1,27 +1,24 @@
-<div class="container">
+<div class="top-container">
   <h1>Settings Form</h1>
   <form (ngSubmit)="onSubmit()" #settingsForm="ngForm">
+    <div class="inputfield">
       <label for="host">Host</label>
-      <input type="text" class="form-control" id="host" required
-        [(ngModel)]="getModel().api_host" name="host"
-        #host="ngModel"
-      >
+      <input type="text" class="form-control" id="host" required [(ngModel)]="getModel().api_host" name="host"
+        #host="ngModel">
 
       <div class="alert alert-danger" *ngIf="host.touched && !host.valid">
         Host is required
       </div>
-
+    </div>
+    <div class="inputfield">
       <label for="port">Port</label>
-      <input type="text" class="form-control" id="port"
-        [(ngModel)]="getModel().api_port" name="port"
-      >
-
+      <input type="text" class="form-control" id="port" [(ngModel)]="getModel().api_port" name="port">
+    </div>
+    <div class="inputfield">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title"
-        [(ngModel)]="getModel().title" name="title"
-      >
-
-    <button type="submit" class="btn btn-default"   [disabled]="!settingsForm.form.valid">Save Settings</button>
+      <input type="text" class="form-control" id="title" [(ngModel)]="getModel().title" name="title">
+    </div>
+    <button type="submit" class="action" [disabled]="!settingsForm.form.valid">Save Settings</button>
 
   </form>
 

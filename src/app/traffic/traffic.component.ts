@@ -63,6 +63,7 @@ export class TrafficComponent implements OnInit {
     tail_number: String,
     relative_height: number
   ) {
+    console.log(range + " " + bearing + " " + speedKts);
     this.p3dcmd.trafficLaunch(
       range, speedKts, bearing, name, tail_number, relative_height)
       .subscribe(data => {

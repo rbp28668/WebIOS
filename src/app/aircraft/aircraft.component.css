@@ -1,0 +1,10 @@
+input.slider {
+    width: 60%;
+}
+
+/* full width on small devices */
+@media (max-width: 600px) {
+    input.slider {
+      width: 100%;
+    }
+}
