@@ -1,88 +1,70 @@
-<div>
+<div class="top-container">
   <h1>Scenarios</h1>
 
 
   <!-- Tab links -->
-<div class="tab">
-  <button
-    *ngFor="let page of getScenarios().pages"
-    [ngClass]="{tablinks : true, active : page.isFirst()}"
-    (click)="selectTab($event, page.name)"
-  >{{page.name}}</button>
-</div>
+  <div class="tab">
+    <button *ngFor="let page of getScenarios().pages" [ngClass]="{tablinks : true, active : page.isFirst()}"
+      (click)="selectTab($event, page.name)">{{page.name}}</button>
+  </div>
 
-<!-- tab pages -->
-<div
-  *ngFor="let page of getScenarios().pages"
-  id="{{page.name}}"
-  [ngClass]="{tabcontent : !page.isFirst(), tabcontent_active : page.isFirst()}"
-  >
-    <cmd-button
-      *ngFor="let item of page.items"
-      caption="{{item.title}}"
-      cmd="/scenario/load?file={{item.filename}}"
-    ></cmd-button>
+  <!-- tab pages -->
+  <div *ngFor="let page of getScenarios().pages" id="{{page.name}}"
+    [ngClass]="{tabcontent : !page.isFirst(), tabcontent_active : page.isFirst()}">
+    <cmd-button *ngFor="let item of page.items" caption="{{item.title}}" cmd="/scenario/load?file={{item.filename}}">
+    </cmd-button>
     <h3>Preset Positions</h3>
-    <cmd-button
-      *ngFor="let item of getPositions().safeFindItemsFor(page.name).items"
-      caption="{{item.title}}"
-      cmd="/position/load?file={{item.filename}}"
-    ></cmd-button>
-</div>
+    <cmd-button *ngFor="let item of getPositions().safeFindItemsFor(page.name).items" caption="{{item.title}}"
+      cmd="/position/load?file={{item.filename}}"></cmd-button>
+  </div>
 
-<!-- TODO - make this a modal dialog form -->
-<div id="save_scenario_dialog" style="display:none">
-<fieldset>
-  <legend>Save Scenario</legend>
-  <app-named-item #scenario_details></app-named-item>
-  <button class="action" (click)="saveScenario(scenario_details)">Save Scenario</button>
-</fieldset>
-<cmd-button caption="Reset scenario" cmd="cmd/SITUATION_RESET"></cmd-button>
-</div>
+  <button class="action" (click)="expandDialog(save_scenario_button, save_scenario_dialog)" #save_scenario_button>Save
+    Scenario</button>
+  <div #save_scenario_dialog style="display: none;">
+    <fieldset class="solid">
+      <legend>Save Scenario</legend>
+      <app-named-item #scenario_details></app-named-item>
+      <button class="action" (click)="saveScenario(scenario_details, save_scenario_button, save_scenario_dialog)">Save
+        Scenario</button>
+      <button class="action" (click)="contractDialog(save_scenario_button, save_scenario_dialog)">Cancel</button>
+    </fieldset>
+  </div>
 
-<!-- Not really needed on IOS..
-<fieldset>
-  <legend>Current Position</legend>
-  <textarea enabled="false" #current_position></textarea>
-  <button class="action" (click)="showCurrentPosition(current_position)">Show Current Position</button>
-</fieldset>
--->
-
-<!-- TODO - make this a modal dialog form -->
-<div id="save_position_dialog" style="display:none">
-<fieldset>
-  <legend>Save Position</legend>
-  <app-named-item #position_details></app-named-item>
-  <button class="action" (click)="savePosition(position_details)">Save Position</button>
-</fieldset>
-</div>
-
-<fieldset class="solid">
-  <legend>Rewind Position</legend>
-    <button class="action" (click)="startRewind(rewind_slider)" style="display:inline-block">Start</button>
+  <fieldset class="solid">
+    <legend>Rewind Position</legend>
+    <button class="action" (click)="startRewind(rewind_slider,start_button, stop_button)" style="display:inline-block"
+      #start_button>Start</button>
     <div class="slidecontainer" style="display:inline-block; width:80%">
-      <input type="range" min="1" max="100" value="50" class="slider"
-      style="display:inline-block; width:100%"
-      (change)="rewindChange(rewind_slider)"
-      #rewind_slider>
+      <input type="range" min="1" max="100" value="50" class="slider" style="display:inline-block; width:100%"
+        (change)="rewindChange(rewind_slider)" disabled="true" #rewind_slider>
     </div>
-    <button class="action" (click)="stopRewind(rewind_slider)" style="float:right; display:inline-block">Stop</button>
+    <button class="action" (click)="stopRewind(rewind_slider, start_button, stop_button)" disabled="true"
+      style="float:right;" #stop_button>Stop</button>
 
-</fieldset>
+  </fieldset>
 
-<fieldset class="solid">
-  <legend>Move Position</legend>
-  <cmd-button caption="Up 1000 feet" cmd="/position/up?feet=1000"></cmd-button>
-  <cmd-button caption="Up 500 feet" cmd="/position/up?feet=500"></cmd-button>
-  <cmd-button caption="Up 100 feet" cmd="/position/up?feet=100"></cmd-button>
-  <cmd-button caption="Down 100 feet" cmd="/position/down?feet=100"></cmd-button>
-  <cmd-button caption="Down 500 feet" cmd="/position/down?feet=500"></cmd-button>
-  <cmd-button caption="Down 1000 feet" cmd="/position/down?feet=1000"></cmd-button>
-</fieldset>
+  <fieldset class="solid">
+    <legend>Move Position</legend>
+    <cmd-button caption="Up 1000 feet" cmd="/position/up?feet=1000"></cmd-button>
+    <cmd-button caption="Up 500 feet" cmd="/position/up?feet=500"></cmd-button>
+    <cmd-button caption="Up 100 feet" cmd="/position/up?feet=100"></cmd-button>
+    <cmd-button caption="Down 100 feet" cmd="/position/down?feet=100"></cmd-button>
+    <cmd-button caption="Down 500 feet" cmd="/position/down?feet=500"></cmd-button>
+    <cmd-button caption="Down 1000 feet" cmd="/position/down?feet=1000"></cmd-button>
+  </fieldset>
 
-<div style="padding-top:10px">
-  <cmd-button caption="Reset Scenario" cmd="cmd/SITUATION_RESET"></cmd-button>
-  <button class="action">Save Scenario</button>
-  <button class="action">Save Position</button>
-</div>
+  <button class="action" (click)="expandDialog(save_position_button, save_position_dialog)" #save_position_button>Save
+    Position</button>
+  <div #save_position_dialog style="display: none">
+    <fieldset class="solid">
+      <legend>Save Position</legend>
+      <app-named-item #position_details></app-named-item>
+      <button class="action" (click)="savePosition(position_details, save_position_button, save_position_dialog)">Save
+        Position</button>
+      <button class="action" (click)="contractDialog(save_position_button, save_position_dialog)">Cancel</button>
+    </fieldset>
+  </div>
+
+
+
 </div>

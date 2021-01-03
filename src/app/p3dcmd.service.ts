@@ -338,18 +338,23 @@ export class P3dcmdService {
     return this.http.get(url);
   }
 
+  weatherStations() : Observable<any> {
+    var url = this.baseUrl() + "weather/stations";
+    return this.http.get(url);
+  }
+
   private encodeWind(extension : String, kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String) : String{
     
-    var speed = "000" + Math.round(kts + 0.5);
+    var speed = "000" + (kts.toFixed());
     speed = speed.substring(speed.length - 3);
 
-    var dirn = "000" + Math.round(direction + 0.5);
+    var dirn = "000" + direction.toFixed();
     dirn = dirn.substring(dirn.length - 3);
 
     var wind = dirn + speed;
 
     if(gusts){
-      var g = "00" + Math.round(gusts + 0.5);
+      var g = "00" + gusts.toFixed();
       g = g.substring(g.length - 2);
       wind = wind + "G" + g;
     }
@@ -368,7 +373,7 @@ export class P3dcmdService {
         windshear = "G"; // gradual
       }
 
-      var d = "0000" + Math.round(depth + 0.5);
+      var d = "0000" + depth.toFixed();
       d = d.substring(d.length - 4);
 
       wind = wind + "&" + extension + d + turbulence + windshear;
@@ -377,7 +382,7 @@ export class P3dcmdService {
     return wind; 
   }
 
-  weatherSetSurfaceWind(station : String, kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String, seconds : number) : Observable<any> {
+  weatherSetSurfaceWind(station : String, kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -388,15 +393,12 @@ export class P3dcmdService {
     var wind = this.encodeWind("D", kts, direction, gusts, depth, turbulence, windshear);
     
     url = url + ch + "surface_wind=" + URLEncode(wind);
-
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
+    ch = '&';
 
     return this.http.get(url);
   }
 
-  weatherSetWindsAloft(station : String, kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String, seconds : number) : Observable<any> {
+  weatherSetWindsAloft(station : String, kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -407,11 +409,8 @@ export class P3dcmdService {
     var wind = this.encodeWind("A", kts, direction, gusts, depth, turbulence, windshear);
     
     url = url + ch + "winds_aloft=" + URLEncode(wind);
+    ch = '&';
 
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
-    
     return this.http.get(url);
   }
 
@@ -427,7 +426,7 @@ export class P3dcmdService {
     return this.http.get(url);
   }
 
-  weatherVisibility(station : String, visibility : number, seconds : number) : Observable<any> {
+  weatherSetVisibility(station : String, visibility : number) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -445,15 +444,12 @@ export class P3dcmdService {
       vis = visibility.toFixed() + "SM";
     }
     url = url + ch + "visibility=" + vis;
-
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
+    ch = '&';
 
     return this.http.get(url);
   }
 
-  weatherRVR(station : String, runway : String, rvr : number, seconds : number) : Observable<any> {
+  weatherSetRVR(station : String, runway : String, rvr : number) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -465,15 +461,12 @@ export class P3dcmdService {
     r = r.substring(r.length - 4);
     var range = "R" + runway + "/" + r + "FT";
     url = url + ch + "rvr=" + range;
-
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
+    ch = '&';
 
     return this.http.get(url);
   }
 
-  weatherSetPresentConditions(station : String, intensity : String, vicinity : boolean, descriptor : String, phenomena : String, seconds : number) : Observable<any> {
+  weatherSetPresentConditions(station : String, intensity : String, vicinity : boolean, descriptor : String, phenomena : String) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -495,15 +488,12 @@ export class P3dcmdService {
     conditions = conditions + descriptor + phenomena;
 
     url = url + ch + "present_conditions=" + conditions;
-
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
+    ch = '&';
 
     return this.http.get(url);
   }
 
-  weatherSetPartialObsucration(station : String, partialObsucration : String, seconds : number) : Observable<any> {
+  weatherSetPartialObsucration(station : String, partialObsucration : String) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -523,10 +513,7 @@ export class P3dcmdService {
     }
 
     url = url + ch + "partial_obscuration=" + view;
-
-    if(seconds){
-      url = url + ch + "seconds=" + seconds;
-    }
+    ch = '&';
 
     return this.http.get(url);
   }
@@ -551,14 +538,15 @@ export class P3dcmdService {
     }
 
     url = url + ch + amount + h;
+    ch = '&';
     
     if(seconds){
-      url = url + "&seconds=" + seconds;
+      url = url + ch + "seconds=" + seconds;
     }
     return this.http.get(url);
   }
 
-  weatherSetTemperature(station : String, temperature : number, dewpoint : number, seconds : number) : Observable<any> {
+  weatherSetTemperature(station : String, temperature : number, dewpoint : number) : Observable<any> {
     var url = this.baseUrl() + "weather/update";
     var ch = '?'
     if(station) {
@@ -567,10 +555,8 @@ export class P3dcmdService {
     }
 
     url = url + ch + temperature.toFixed() + "/" + dewpoint.toFixed();
+    ch = '&';
 
-    if(seconds){
-      url = url + "&seconds=" + seconds;
-    }
     return this.http.get(url);
   }
 
@@ -582,7 +568,7 @@ export class P3dcmdService {
       ch = '&';
     }
 
-    var mb = "0000" + Math.round(qnh + 0.5);
+    var mb = "0000" + qnh.toFixed();
     mb = mb.substring(mb.length - 4);
 
     mb = "Q" + mb
@@ -600,6 +586,160 @@ export class P3dcmdService {
     }
     return this.http.get(url);
   }
+
+  weatherSetGlobalSurfaceWind(kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+ 
+    var wind = this.encodeWind("D", kts, direction, gusts, depth, turbulence, windshear);
+    
+    url = url + ch + "surface_wind=" + URLEncode(wind);
+    ch = '&';
+  
+   return this.http.get(url);
+  }
+
+  weatherSetGlobalWindsAloft(kts : number, direction : number, gusts : number, depth : number, turbulence : String, windshear: String) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+
+    var wind = this.encodeWind("A", kts, direction, gusts, depth, turbulence, windshear);
+    
+    url = url + ch + "winds_aloft=" + URLEncode(wind);
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalCAVOK() : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+        
+    url = url + ch + "cavok=CAVOK";
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalVisibility(visibility : number) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+    
+    var vis = "";
+    if(visibility < 0.25) {
+      vis = "M1/4SM";
+    } else if (visibility < 1) {
+      var eigths = (visibility * 8).toFixed();
+      vis = eigths + "/8SM" 
+    } else {
+      vis = visibility.toFixed() + "SM";
+    }
+    url = url + ch + "visibility=" + vis;
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalRVR(runway : String, rvr : number) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+    
+    var r = "0000" + rvr.toFixed();
+    r = r.substring(r.length - 4);
+    var range = "R" + runway + "/" + r + "FT";
+    url = url + ch + "rvr=" + range;
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalPresentConditions(intensity : String, vicinity : boolean, descriptor : String, phenomena : String) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+
+    var conditions = "";
+    if(intensity == "light"){
+      conditions = conditions + "-";
+    } else if (intensity == "severe"){
+      conditions = conditions + "+";
+    }
+    
+    if(vicinity) {
+      conditions = conditions + "VC"
+    }
+
+    conditions = conditions + descriptor + phenomena;
+
+    url = url + ch + "present_conditions=" + conditions;
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalPartialObscuration(partialObscuration : String) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+
+    var view = null;
+    if(partialObscuration == "few"){
+      view = "FEW000";
+    } else if (partialObscuration == "scattered"){
+      view = "SCT000";
+    } else if (partialObscuration == "broken"){
+      view = "BKN000";
+    } else {
+      console.log(`Unknown obscuration: ${partialObscuration}`);
+    }
+
+    url = url + ch + "partial_obscuration=" + view;
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalSkyConditions(height : number, amount : String) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+   
+    var h : String = "000";
+
+    if(height){
+      if(height >= 100000) {
+        h = "999";
+      } else {
+        h = "000" + (height / 100).toFixed();
+        h = h.substring(h.length - 3);
+      }
+    }
+
+    url = url + ch + amount + h;
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalTemperature(temperature : number, dewpoint : number) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+
+    url = url + ch + temperature.toFixed() + "/" + dewpoint.toFixed();
+    ch = '&';
+
+    return this.http.get(url);
+  }
+
+  weatherSetGlobalQNH( qnh : number) : Observable<any> {
+    var url = this.baseUrl() + "weather/update_global";
+    var ch = '?'
+ 
+    var mb = "0000" + qnh.toFixed();
+    mb = mb.substring(mb.length - 4);
+
+    mb = "Q" + mb
+    
+    url = url + ch + "altimiter=" + URLEncode(mb);
+    return this.http.get(url);
+
+  }
+
 
   weatherSetGlobalMetar( metar : String, seconds : number) : Observable<any> {
     var url = this.baseUrl() + "weather/set_global_metar";
@@ -643,7 +783,7 @@ export class P3dcmdService {
   logError(message : String) : Observable<any> {
     return this.logMessage("error", message);
   }
-  
+
 //////////////////////////////////////////////////////////////
   // Panel
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { P3dcmdService} from '../p3dcmd.service';
 
+
+
 @Component({
   selector: 'app-recording',
   templateUrl: './recording.component.html',
@@ -27,8 +29,9 @@ export class RecordingComponent implements OnInit {
     this.p3dcmd.recordList().subscribe( data => {
       // Process resulting list
       if(data.status === "OK") {
-        data.recordings.forEach( (item: String) => {
-          this.recordings.push(item);
+        data.recordings.forEach( (item: any) => {
+          console.log(item.recording);
+          this.recordings.push(item.recording);
         });
 
       } else { // failed
@@ -40,7 +43,7 @@ export class RecordingComponent implements OnInit {
     });
   }
 
-
+  // Note analyse also needs to pull back the generated bitmap(s) from Pictures/Prepar3D V4 Files
   analyse(): void {
     this.p3dcmd.recordAnalyse().subscribe( data => {
       if(data.status !== "OK") {
@@ -68,9 +71,12 @@ export class RecordingComponent implements OnInit {
     });
   }
 
-  startRecording(): void {
+  startRecording(start_button : HTMLButtonElement, stop_button : HTMLButtonElement): void {
     this.p3dcmd.recordStart().subscribe( data => {
-      if(data.status !== "OK") {
+      if(data.status === "OK") {
+        start_button.disabled = true;
+        stop_button.disabled = false;
+      } else {
         this.logFailure(data);
       }
     }, (err: any) => { // on error
@@ -79,7 +85,7 @@ export class RecordingComponent implements OnInit {
     });
   }
   
-  stopRecording(title : String, description : String): void {
+  stopRecording(title : String, description : String, start_button : HTMLButtonElement, stop_button : HTMLButtonElement): void {
     this.p3dcmd.recordStop(title, description).subscribe( data => {
       if(data.status !== "OK") {
         this.logFailure(data);
@@ -88,6 +94,11 @@ export class RecordingComponent implements OnInit {
       console.log("Error playing recording");
       console.log(err);
     });
+
+    // Update buttons regardless of whether function succeeded or not.  Makes sure we don't get stuck in recording state.
+    start_button.disabled = false;
+    stop_button.disabled = true;
+
   }
 
 

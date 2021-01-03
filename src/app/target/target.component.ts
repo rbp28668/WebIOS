@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -66,7 +67,7 @@ export class TargetComponent implements OnInit {
   }
 
   public clicked(event : MouseEvent){
-    console.log(event);
+    //console.log(event);
     //console.log(event.clientX);
     //console.log(event.clientY);
     //console.log(event.target.offsetLeft);
@@ -85,6 +86,8 @@ export class TargetComponent implements OnInit {
     var y = event.clientY
      + (document.documentElement.scrollTop || document.body.scrollTop)
      - canvas.offsetTop;
+    // x and y now relative to top left of target.
+
 
     context.beginPath();
     context.strokeStyle = '#ffffff';
@@ -93,8 +96,12 @@ export class TargetComponent implements OnInit {
     context.lineTo(x,y);
     context.stroke();
 
-    this.bearing = Math.atan2(y,x) * 180 / Math.PI;
+    x = x - half;
+    y = y - half;
+    this.bearing = 90 + Math.atan2(y,x) * 180 / Math.PI;
+    if(this.bearing < 0) this.bearing = this.bearing + 360;
     this.value = Math.sqrt(x*x + y*y) * this.range / this.radius;
+    console.log("Target: " + this.value + ", " + this.bearing);
   }
 
   /* Sample code including scroll info

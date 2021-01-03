@@ -1,54 +1,61 @@
-<div style="font-size:20px; display:inline-block">
+<div class="top-container">
 
   <fieldset class="solid">
     <legend>Launch Traffic</legend>
 
-    <app-target #target ></app-target>
+    <app-target #target></app-target>
 
-  <div style="display:inline-block">
-  <label for="aircraft">Aircraft Type</label>
-  <select id="aircraft" #aircraft style="font-size:20px">
-    <option *ngFor="let a of getAvailableAircraft()">{{a}}</option>
-  </select>
-  <br>
-  <label for="speed">Speed</label>
-  <input type="number" id="speed" #speed style="font-size:20px" app-target.rangeplaceholder="Speed in kts">
-  <!--
+    <div class="inputfield">
+      <label for="aircraft">Aircraft Type</label>
+      <select id="aircraft" #aircraft style="font-size:20px">
+        <option *ngFor="let a of getAvailableAircraft()">{{a}}</option>
+      </select>
+    </div>
+    <div class="inputfield">
+      <label for="speed">Speed</label>
+      <input type="number" id="speed" #speed style="font-size:20px" app-target.rangeplaceholder="Speed in kts">
+    </div>
+    <!--
   <label for="restart" >Restart</label>
 <input type="checkbox"  id="restart">
 -->
-<br>
-<label for="tail_number">Tail Number</label>
-<input type="text" id="tail_number" #tail_number style="font-size:20px" placeholder="Tail number">
-<br>
-<label for="relative_height">Relative height</label>
-<input type="number" id="relative_height" #relative_height style="font-size:20px" placeholder="Relative height in feet">
-<br>
-<button class="action" (click)="trafficLaunch(target.range ,
+    <div class="inputfield">
+      <label for="tail_number">Tail Number</label>
+      <input type="text" id="tail_number" #tail_number style="font-size:20px" placeholder="Tail number">
+    </div>
+    <div class="inputfield">
+      <label for="relative_height">Relative height</label>
+      <input type="number" id="relative_height" #relative_height style="font-size:20px"
+        placeholder="Relative height in feet">
+    </div>
+    <button class="action" (click)="trafficLaunch(target.value ,
 speed.value,target.bearing,
 aircraft.value,tail_number.value, relative_height.value)">Launch</button>
-</div>
-</fieldset>
 
-<fieldset class="solid">
-  <legend>IGC Traffic</legend>
+  </fieldset>
 
-<label for="igc-aircraft">Aircraft Type</label>
-<select id="igc-aircraft" #igc_aircraft style="font-size:20px">
-  <option *ngFor="let a of getAvailableAircraft()">{{a}}</option>
-</select>
-<br>
-<label for="igc-file">IGC File</label>
-<select id="igc-file" #igc_file style="font-size:20px">
-  <option *ngFor="let f of getIGCFiles()">{{f}}</option>
-</select>
-<br>
-<label for="loop">Loop file</label>
-<input type="checkbox" id="loop" #loop>
-<br>
-<button class="action" (click)="igcLaunch(igc_aircraft.value, igc_file.value, loop.value==='on')">Launch</button>
-<br>
-<button class="action" (click)="igcClear()">Clear IGC Traffic</button>
-</fieldset>
+  <fieldset class="solid">
+    <legend>IGC Traffic</legend>
+
+    <div class="inputfield">
+      <label for="igc-aircraft">Aircraft Type</label>
+      <select id="igc-aircraft" #igc_aircraft style="font-size:20px">
+        <option *ngFor="let a of getAvailableAircraft()">{{a}}</option>
+      </select>
+    </div>
+    <div class="inputfield">
+      <label for="igc-file">IGC File</label>
+      <select id="igc-file" #igc_file style="font-size:20px">
+        <option *ngFor="let f of getIGCFiles()">{{f}}</option>
+      </select>
+    </div>
+    <div class="inputfield">
+      <label for="loop">Loop file</label>
+      <input type="checkbox" id="loop" #loop>
+    </div>
+    <button class="action" (click)="igcLaunch(igc_aircraft.value, igc_file.value, loop.value==='on')">Launch</button>
+    <br>
+    <button class="action" (click)="igcClear()">Clear IGC Traffic</button>
+  </fieldset>
 
 </div>

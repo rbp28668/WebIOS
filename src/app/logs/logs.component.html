@@ -1,26 +1,30 @@
-<div style="font-size:20px; display:inline-block">
+<div class="top-container">
 
   <fieldset class="solid">
     <legend>Session</legend>
 
-  <label for="membership-number">Membership Number</label>
-  <input type="text" style="font-size:20px" id="membership-number" placeholder="Membership Number" #membershipNumber>
-  <br>
-  <label for="name">Name</label>
-  <input type="text" style="font-size:20px" id="name" placeholder="Name" #memberName>
-<button class="action" (click)="logOn(memberName.value, membershipNumber.value)">Start Session</button>
-<button class="action" (click)="logOff()">End Session</button>
+    <div class="inputfield">
+      <label for="membership-number">Membership Number</label>
+      <input type="text"  id="membership-number" placeholder="Membership Number"
+        #membershipNumber>
+    </div>
+    <div class="inputfield">
+      <label for="name">Name</label>
+      <input type="text"  id="name" placeholder="Name" #memberName>
+    </div>
+    <button class="action" (click)="logOn(memberName.value, membershipNumber.value)">Start Session</button>
+    <button class="action" (click)="logOff()">End Session</button>
 
-</fieldset>
+  </fieldset>
 
   <fieldset class="solid">
-  <legend>Add Log Comment</legend>
+    <legend>Add Log Comment</legend>
+    <div class="inputfield">
+      <label for="comment">Comment</label>
+      <input type="text"  id="comment" placeholder="Comment" #comment>
+    </div>
+    <button class="action" (click)="logInfo(comment.value)">Comment to log</button>
 
-<label for="comment">Comment</label>
-<input type="text" style="font-size:20px" id="comment" placeholder="Comment" #comment>
-<br>
-<button class="action" (click)="logInfo(comment.value)">Comment to log</button>
-
-</fieldset>
+  </fieldset>
 
 </div>

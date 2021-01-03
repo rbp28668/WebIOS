@@ -124,7 +124,17 @@ export class ScenariosComponent implements OnInit {
 
   }
 
-  saveScenario(details: NamedItemComponent) : void {
+  expandDialog(button : HTMLButtonElement, dialog : HTMLDivElement) : void {
+    button.setAttribute("style","display:none");
+    dialog.removeAttribute("style");
+  }
+
+  contractDialog(button : HTMLButtonElement, dialog : HTMLDivElement) : void {
+    dialog.setAttribute("style","display:none");
+    button.removeAttribute("style");
+  }
+
+  saveScenario(details: NamedItemComponent,button : HTMLButtonElement, dialog : HTMLDivElement) : void {
     this.p3dcmd.scenariosSave(details.filename(), details.title(), details.description()).subscribe( data => {
       if(data.status !== "OK") {
         this.logFailure(data);
@@ -133,9 +143,10 @@ export class ScenariosComponent implements OnInit {
       console.log("Error saving scenario");
       console.log(err);
     });
+    this.contractDialog(button,dialog);
   }
 
-  savePosition(details: NamedItemComponent) : void {
+  savePosition(details: NamedItemComponent, button : HTMLButtonElement, dialog : HTMLDivElement) : void {
     this.p3dcmd.positionSave(details.filename(), details.title(), details.description()).subscribe( data => {
       if(data.status !== "OK") {
         this.logFailure(data);
@@ -144,6 +155,7 @@ export class ScenariosComponent implements OnInit {
       console.log("Error saving position");
       console.log(err);
     });
+    this.contractDialog(button,dialog);
   }
 
   showCurrentPosition(control : FormControl){
@@ -169,13 +181,14 @@ export class ScenariosComponent implements OnInit {
       });
   }
 
-  // TODO - put interlock in so that slider and stop button are only
-  // enabled when start is pressed.
-  startRewind(rewind_slider){
+  startRewind(rewind_slider : HTMLInputElement, start_button : HTMLButtonElement, stop_button : HTMLButtonElement){
     console.log(rewind_slider);
     this.p3dcmd.runCommand("/cmd/PAUSE_ON").subscribe( data => {
       if(data.status === "OK"){
         this.setSliderRange(rewind_slider);
+        start_button.disabled = true;
+        rewind_slider.disabled = false;
+        stop_button.disabled = false;
       } else {
         this.logFailure(data);
       }
@@ -212,10 +225,14 @@ export class ScenariosComponent implements OnInit {
   }
 
 
-  stopRewind(rewind_slider) : void {
-    this.p3dcmd.positionSet(rewind_slider.value).subscribe( data => {
+  stopRewind(rewind_slider : HTMLInputElement, start_button : HTMLButtonElement, stop_button : HTMLButtonElement) : void {
+    this.p3dcmd.positionSet(parseInt(rewind_slider.value)).subscribe( data => {
       if(data.status === "OK"){
         this.unpauseSim();
+        start_button.disabled = false;
+        rewind_slider.value = "0";
+        rewind_slider.disabled = true;
+        stop_button.disabled = true;
       } else {
         this.logFailure(data);
       }
@@ -237,7 +254,7 @@ export class ScenariosComponent implements OnInit {
   }
 
 
-  selectTab(evt, tabName) {
+  selectTab(evt, tabName : string) {
     // Declare all variables
     var i, tabcontent, tablinks;
 

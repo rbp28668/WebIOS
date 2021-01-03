@@ -1,13 +1,9 @@
 .form-group {
   padding: 5px 16px;
-  font-size: 20px;
-
-}
+ }
 
 .form-group label {
   width: 20%;
   float: left;
 }
-.form-control {
-  font-size: 20px;
-}
+
