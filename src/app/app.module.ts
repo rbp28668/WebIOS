@@ -19,6 +19,7 @@ import { SlewComponent } from './slew/slew.component';
 import { LogsComponent } from './logs/logs.component';
 import { CmdbuttonComponent } from './cmdbutton/cmdbutton.component';
 import { AircraftComponent } from './aircraft/aircraft.component';
+import { TugComponent } from './tug/tug.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NamedItemComponent } from './named-item/named-item.component';
 // Global settings
@@ -42,6 +43,7 @@ import { TargetComponent } from './target/target.component';
     LogsComponent,
     CmdbuttonComponent,
     AircraftComponent,
+    TugComponent,
     SettingsComponent,
     NamedItemComponent,
     TargetComponent

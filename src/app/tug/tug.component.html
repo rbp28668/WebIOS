@@ -1,0 +1,33 @@
+<div>
+
+  <fieldset class="solid">
+    <legend>Control Tug</legend>
+    <div class="inputfield">
+      <label for="aileron">Aileron</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="aileron" #aileron
+        (input)="sendControlValue('AILERON_SET', aileron.value )">
+    </div>
+    <div class="inputfield">
+      <label for="elevator">Elevator</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="elevator" #elevator
+        (input)="sendControlValue('ELEVATOR_SET', elevator.value)">
+    </div>
+    <div class="inputfield">
+      <label for="rudder">Rudder</label>
+      <input type="range" min="-16383" max="16383" value="0" class="slider" id="rudder" #rudder
+        (input)="sendControlValue('RUDDER_SET', rudder.value)">
+    </div>
+    <div>
+      <cmd-button caption="Throttle Cut" cmd="cmd/THROTTLE_CUT?target=tug"></cmd-button>
+      <cmd-button caption="Throttle Down" cmd="cmd/THROTTLE_DECR?target=tug"></cmd-button>
+      <cmd-button caption="Throttle Up" cmd="cmd/THROTTLE_INCR?target=tug"></cmd-button>
+      <cmd-button caption="Throttle Full" cmd="cmd/THROTTLE_FULL?target=tug"></cmd-button>
+    </div>
+    <div>
+      <cmd-button caption="Toggle engine failure" cmd="cmd/TOGGLE_ENGINE1_FAILURE?target=tug"></cmd-button>
+      <cmd-button caption="Dump Glider" cmd="cmd/TOW_PLANE_RELEASE?target=tug"></cmd-button>
+    </div>
+  </fieldset>
+
+
+</div>

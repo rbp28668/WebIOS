@@ -9,6 +9,7 @@ import { RecordingComponent} from './recording/recording.component';
 import { SlewComponent} from './slew/slew.component';
 import { LogsComponent} from './logs/logs.component';
 import { AircraftComponent} from './aircraft/aircraft.component';
+import { TugComponent} from './tug/tug.component';
 import { SettingsComponent} from './settings/settings.component';
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'slew', component: SlewComponent},
   {path: 'logs', component: LogsComponent},
   {path: 'aircraft', component: AircraftComponent},
+  {path: 'tug', component: TugComponent},
   {path: 'settings', component: SettingsComponent},
   { path: '',   redirectTo: '/scenarios',    pathMatch: 'full'  }
 ];
