@@ -1,11 +1,16 @@
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+//import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { P3dcmdService } from '../p3dcmd.service';
 
 class Theme {
-  public name: String;
-  public title: String;
-  public description: String;
+  public name: string;
+  public title: string;
+  public description: string;
+  constructor(name: string, title: string, description: string){
+    this.name = name;
+    this.title = title;
+    this.description = description;
+  }
 }
 
 
@@ -34,7 +39,7 @@ export class WeatherComponent implements OnInit {
 
   }
 
-  private logFailure(data): void {
+  private logFailure(data: any): void {
     console.log("Failed: " + data.reason + data.code);
   }
 
@@ -48,13 +53,10 @@ export class WeatherComponent implements OnInit {
   }
 
   private loadThemes(): void {
-    this.p3dcmd.weatherThemes().subscribe(data => {
+    this.p3dcmd.weatherThemes().subscribe( (data:any) => {
       if (data.status === "OK") {
         for (let t of data.themes) {
-          let theme: Theme = new Theme();
-          theme.name = t.name;
-          theme.title = t.title;
-          theme.description = t.description;
+          let theme: Theme = new Theme(t.name, t.title, t.description);
           this.themes.push(theme);
         }
 
@@ -69,7 +71,7 @@ export class WeatherComponent implements OnInit {
   }
 
   private loadGlobalMetar(display?: HTMLElement): void {
-    this.p3dcmd.weatherRequestGlobal().subscribe(data => {
+    this.p3dcmd.weatherRequestGlobal().subscribe( (data:any) => {
       if (data.status === "OK") {
         this.globalMetar = data.metar;
         if (display) {
@@ -86,7 +88,7 @@ export class WeatherComponent implements OnInit {
   }
 
   refresh(display: HTMLElement): void {
-    this.p3dcmd.weatherRefresh().subscribe(data => {
+    this.p3dcmd.weatherRefresh().subscribe( (data:any) => {
       if (data.status === "OK") {
         this.loadGlobalMetar(display);
       } else {
@@ -101,7 +103,7 @@ export class WeatherComponent implements OnInit {
 
 
   setTheme(name: String): void {
-    this.p3dcmd.weatherSetTheme(name).subscribe(data => {
+    this.p3dcmd.weatherSetTheme(name).subscribe((data:any) => {
       if (data.status !== "OK") {
         this.logFailure(data);
       }
@@ -111,7 +113,7 @@ export class WeatherComponent implements OnInit {
     });
   }
 
-  themeSelected(selected: String, text): void {
+  themeSelected(selected: string, text:HTMLTextAreaElement): void {
     for (let t of this.themes) {
       if (t.name === selected) {
         text.value = t.description;
@@ -431,7 +433,7 @@ export class WeatherComponent implements OnInit {
     });
   }
 
-  selectTab(evt, tabName: string) {
+  selectTab(evt:MouseEvent, tabName: string) {
     // Declare all variables
     var i, tabcontent, tablinks;
 
@@ -448,8 +450,10 @@ export class WeatherComponent implements OnInit {
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).className += "_active";
-    evt.currentTarget.className += " active";
+    let element = document.getElementById(tabName);
+    if(element != null) element.className += "_active";
+    let target = evt.currentTarget  as HTMLButtonElement;
+    if(target != null) target.className += " active";
   }
 
 }

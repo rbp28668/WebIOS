@@ -38,7 +38,7 @@
     <div class="inputfield">
       <label for="hPa" style="font-size:20px; margin-left:50px;">hPa</label>
       <input type="number" min="900" max="1100" name="hPa" id="hPa" value="1013"
-        style="font-size:20px; margin-left:20px; margin-right:20px" #hPa (change)="updatehPaCmd(kohlsman_set, hPa)">
+        style="font-size:20px; margin-left:20px; margin-right:20px" #hPa (change)="updatehPaCmd(kohlsman_set, hPa.value)">
     </div>
     <cmd-button caption="Set" cmd="cmd/KOHLSMAN_SET?value=16208" #kohlsman_set></cmd-button>
 

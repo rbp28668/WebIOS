@@ -1,4 +1,4 @@
-import { ThrowStmt } from '@angular/compiler';
+//import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -16,12 +16,12 @@ export class TargetComponent implements OnInit {
   @Input () divider : number;
 
   // Selected bearing
-  public bearing : number;
+  public bearing : number = 0;
 
   // Selected value
-  public value : number;
+  public value : number = 0;
 
-  private radius : number;
+  private radius : number = 0;
 
   constructor() {
     this.range = 5;
@@ -35,7 +35,10 @@ export class TargetComponent implements OnInit {
 
   private drawTarget() : void {
     const canvas = <HTMLCanvasElement>document.getElementById('myCanvas');
+   
     const context = canvas.getContext('2d');
+    if(context === null) return;
+
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
@@ -77,6 +80,7 @@ export class TargetComponent implements OnInit {
 
     var canvas = <HTMLCanvasElement>event.target;
     var context = canvas.getContext('2d');
+    if(context === null) return;
     var size = canvas.width;
     var half = size/2;
 

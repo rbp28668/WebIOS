@@ -11,8 +11,8 @@ export class CmdbuttonComponent implements OnInit {
   is_sending : boolean = false;
   is_err : boolean = false;
 
-  @Input() caption : string;
-  @Input() cmd : string;
+  @Input() caption : string = 'Unknown';
+  @Input() cmd : string = '??';
 
   constructor(private p3dcmd: P3dcmdService) { }
 

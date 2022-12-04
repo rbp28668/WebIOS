@@ -7,8 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class NavButtonComponent implements OnInit {
 
-  @Input() caption : string;
-  @Input() route : string;
+  @Input() caption : string = "";
+  @Input() route : string = "/";
   selected = false;
 
   doRoute() {

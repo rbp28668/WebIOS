@@ -15,7 +15,7 @@ export class TrafficComponent implements OnInit {
   // IGC files
   private files : Array<String> = new Array<String>();
 
-  private logFailure(data) : void {
+  private logFailure(data: any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
 
@@ -24,7 +24,7 @@ export class TrafficComponent implements OnInit {
   ngOnInit() {
     this.p3dcmd.trafficAircraft().subscribe( data => {
       if(data.status === "OK") {
-        data.aircraft.forEach( aircraft => {
+        data.aircraft.forEach( (aircraft:any) => {
           this.aircraft.push(aircraft.title);
         });
 
@@ -36,9 +36,9 @@ export class TrafficComponent implements OnInit {
       console.log(err);
     });
 
-    this.p3dcmd.igcList(null).subscribe( data => {
+    this.p3dcmd.igcList("").subscribe( data => {
       if(data.status === "OK") {
-        data.entries.forEach( file => {
+        data.entries.forEach( (file:any) => {
           this.files.push(file.filename);
         });
 
@@ -57,15 +57,15 @@ export class TrafficComponent implements OnInit {
 
   public trafficLaunch(
     range: number,
-    speedKts: number,
+    speedKts: string,
     bearing: number,
-    name: String,
-    tail_number: String,
-    relative_height: number
+    name: string,
+    tail_number: string,
+    relative_height: string
   ) {
     console.log(range + " " + bearing + " " + speedKts);
     this.p3dcmd.trafficLaunch(
-      range, speedKts, bearing, name, tail_number, relative_height)
+      range, Number(speedKts), bearing, name, tail_number, Number(relative_height))
       .subscribe(data => {
       if(data.status !== "OK") {
         this.logFailure(data);

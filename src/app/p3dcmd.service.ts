@@ -18,7 +18,7 @@ export class P3dcmdService {
   constructor(private http: HttpClient, private settings: Settings) { }
 
   // Runs a command, returns true on success.
-  runCommand(cmd) : Observable<any> {
+  runCommand(cmd: any) : Observable<any> {
       return this.http.get(this.baseUrl() + cmd);
   }
 

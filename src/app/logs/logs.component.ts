@@ -14,13 +14,13 @@ export class LogsComponent implements OnInit {
   ngOnInit() {
   }
 
-  private logFailure(data) : void {
+  private logFailure(data:any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
 
 
-  logOn(memberName : String, membershipNumber : number) {
-    this.p3dcmd.logOn(memberName, membershipNumber).subscribe( data => {
+  logOn(memberName : String, membershipNumber : string) {
+    this.p3dcmd.logOn(memberName, Number(membershipNumber)).subscribe( data => {
       if(data.status !== "OK") {
         this.logFailure(data);
       }

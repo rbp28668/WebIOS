@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class NamedItem {\n  constructor(filename, title, description) {\n    this.filename = filename;\n    this.title = title;\n    this.description = description;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

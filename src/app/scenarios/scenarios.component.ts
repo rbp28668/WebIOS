@@ -5,11 +5,11 @@ import { NamedItemComponent} from '../named-item/named-item.component';
 import { FormControl} from '@angular/forms';
 // A list of named items with a common (site) name.
 class NamedItemList {
-  public name : String;
+  public name : string;
   public items : Array<NamedItem>;
   private index : number;
 
-  constructor(name: String, index:number) {
+  constructor(name: string, index:number) {
     this.name = name;
     this.items = new Array<NamedItem>();
     this.index = index;
@@ -44,7 +44,7 @@ class GroupedItems {
       page.add(item);
     }
 
-    private findItemsFor(site : String) : NamedItemList {
+    private findItemsFor(site : String) : NamedItemList | null {
       var page = null;
       this.pages.forEach( p => {
         if(p.name === site) {
@@ -56,7 +56,7 @@ class GroupedItems {
 
     // Function that's guaranteed to return a list even if no match.
     public safeFindItemsFor(site : String) : NamedItemList {
-      var page: NamedItemList = this.findItemsFor(site);
+      var page = this.findItemsFor(site);
       if(page === null){
         page = new NamedItemList("",0);
       }
@@ -84,15 +84,15 @@ export class ScenariosComponent implements OnInit {
     this.loadPositions();
   }
 
-  private logFailure(data) : void {
+  private logFailure(data: any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
 
   private loadScenarios() : void {
-    this.p3dcmd.scenariosList("IOS").subscribe( data => {
+    this.p3dcmd.scenariosList("IOS").subscribe( (data:any) => {
       // Process resulting list
       if(data.status === "OK") {
-        data.entries.forEach( item => {
+        data.entries.forEach( (item:any) => {
           this.scenarios.add(item);
         });
 
@@ -107,10 +107,10 @@ export class ScenariosComponent implements OnInit {
   }
 
   private loadPositions() : void {
-    this.p3dcmd.positionList("IOS").subscribe( data => {
+    this.p3dcmd.positionList("IOS").subscribe( (data:any) => {
       // Process resulting list
       if(data.status === "OK") {
-        data.entries.forEach( item => {
+        data.entries.forEach( (item:any) => {
           this.positions.add(item);
         });
 
@@ -198,11 +198,11 @@ export class ScenariosComponent implements OnInit {
     })
   }
 
-  private setSliderRange(rewind_slider){
+  private setSliderRange(rewind_slider: HTMLInputElement){
     this.p3dcmd.positionAvailable().subscribe( data => {
       if(data.status === "OK"){
-        rewind_slider.value = 0;
-        rewind_slider.min = 0;
+        rewind_slider.value = '0';
+        rewind_slider.min = '0';
         rewind_slider.max = data.length;
       } else {
         this.logFailure(data);
@@ -213,8 +213,8 @@ export class ScenariosComponent implements OnInit {
     });
   }
 
-  rewindChange(rewind_slider) : void {
-    this.p3dcmd.positionBack(rewind_slider.value).subscribe( data => {
+  rewindChange(rewind_slider: HTMLInputElement) : void {
+    this.p3dcmd.positionBack(Number(rewind_slider.value)).subscribe( data => {
       if(data.status !== "OK"){
         this.logFailure(data);
       }
@@ -254,7 +254,7 @@ export class ScenariosComponent implements OnInit {
   }
 
 
-  selectTab(evt, tabName : string) {
+  selectTab(evt: MouseEvent, tabName : string) {
     // Declare all variables
     var i, tabcontent, tablinks;
 
@@ -271,8 +271,11 @@ export class ScenariosComponent implements OnInit {
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).className += "_active";
-    evt.currentTarget.className += " active";
+    var element = document.getElementById(tabName);
+    if(element != null) element.className += "_active";
+    
+    var target = evt.currentTarget as HTMLButtonElement;
+    if(target != null) target.className += " active";
   }
 
 

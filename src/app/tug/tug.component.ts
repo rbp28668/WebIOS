@@ -15,7 +15,7 @@ export class TugComponent implements OnInit {
   ngOnInit() {
   }
 
-  private logFailure(data) : void {
+  private logFailure(data: any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
 

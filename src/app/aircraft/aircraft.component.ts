@@ -15,15 +15,15 @@ export class AircraftComponent implements OnInit {
   ngOnInit() {
   }
 
-  private logFailure(data) : void {
+  private logFailure(data:any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
 
  
 
   // Use this to update the altimeter setting button when the hPa field changes.
-  updatehPaCmd(button : CmdbuttonComponent, hPa : FormControl) : void {
-    button.cmd = "cmd/KOHLSMAN_SET?value=" + (16*Number(hPa.value));
+  updatehPaCmd(button : CmdbuttonComponent, hPa : string) : void {
+    button.cmd = "cmd/KOHLSMAN_SET?value=" + (16*Number(hPa));
   }
 
   sendControlValue(cmd : string, value : string ) : void {

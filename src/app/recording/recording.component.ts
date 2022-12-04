@@ -15,7 +15,7 @@ export class RecordingComponent implements OnInit {
   constructor(private p3dcmd: P3dcmdService) { }
 
 
-  private logFailure(data) : void {
+  private logFailure(data: any) : void {
     console.log("Failed: " + data.reason + data.code);
   }
   
